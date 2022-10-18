@@ -9,12 +9,10 @@
 <!-- {{ rooms.availableRooms ??  'no rooms' }} -->
 
 <!-- {{ roomList | json }} -->
-
-<div *ngIf=" rooms.availableRooms > 0">
-    <hinv-room-list [rooms]="roomList"
-    (selectedRoom)="selectRoom($event)"
-    ></hinv-room-list>
+<div>
+    <button (click)="addRoom()">Add Room</button>
 </div>
+
 
 <div *ngIf="selectedRoom">
     <h1>Selected Room : n° {{selectedRoom.roomNumber}} {{selectedRoom.roomType}}</h1>
@@ -25,6 +23,16 @@
         <img src="{{selectedRoom.photos}}" alt="room selected" class="photo">
     </div>
 </div>
+
+<div *ngIf=" rooms.availableRooms > 0">
+    <hinv-room-list [rooms]="roomList"
+    [title]="title"
+    (selectedRoom)="selectRoom($event)"
+    class="table"
+    ></hinv-room-list>
+</div>
+
+
 
 
 
