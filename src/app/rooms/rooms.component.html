@@ -11,32 +11,23 @@
 <!-- {{ roomList | json }} -->
 
 <div *ngIf=" rooms.availableRooms > 0">
-    Room list
-    <!-- {{roomList}} -->
-    <table class="table">
-        <tr>
-            <th>Index</th>
-            <th>Even / Odd</th>
-            <th>Room Number</th>
-            <th>Room Type</th>
-            <th>Room Price</th>
-            <th>Room Amenities</th>
-            <th>Checkin Time</th>
-            <th>Rating</th>
-        </tr>
-        <tr [ngClass]=" e ? 'even' : 'odd' " *ngFor="let room of roomList; let e = even; let o = odd; let i = index">
-            <td>{{ i }}</td>
-            <td>{{ e ? "Even" : "Odd"}}</td>
-            <td>{{ room.roomNumber }}</td>
-            <td>{{ room.roomType }}</td>
-            <td>{{ room.price | currency : 'EUR' }}</td>
-            <td>{{ room.amenities | titlecase }}</td>
-            <td>{{ room.checkinTime | date: 'dd/MMM/yyyy'  }}</td>
-            <td>{{ room.rating | number: '1.1-2'}}</td>
-
-        </tr>
-    </table>
+    <hinv-room-list [rooms]="roomList"
+    (selectedRoom)="selectRoom($event)"
+    ></hinv-room-list>
 </div>
+
+<div *ngIf="selectedRoom">
+    <h1>Selected Room : n° {{selectedRoom.roomNumber}} {{selectedRoom.roomType}}</h1>
+    <div>
+        <p>Price : {{ selectedRoom.price}} € {{selectedRoom.rating | number :'1.1-1'}} stars rate</p>
+        <h3>Amenities :</h3> 
+        <p>{{selectedRoom.amenities}}</p>
+        <img src="{{selectedRoom.photos}}" alt="room selected" class="photo">
+    </div>
+</div>
+
+
+
 
 <button (click)="toggle()">Toggle</button>
 
