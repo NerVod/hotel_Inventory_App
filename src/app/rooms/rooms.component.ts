@@ -1,4 +1,5 @@
-import { Component, DoCheck, OnChanges, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, DoCheck, OnChanges, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { HeaderComponent } from '../header/header.component';
 import { Room, RoomList } from './rooms';
 
 @Component({
@@ -6,7 +7,7 @@ import { Room, RoomList } from './rooms';
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.scss']
 })
-export class RoomsComponent implements OnInit {
+export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   hotelName = 'Hilton Hotel';
   numberOfRooms = 10;
@@ -22,12 +23,15 @@ export class RoomsComponent implements OnInit {
 
   roomList: RoomList[] = []  
 
+  @ViewChild(HeaderComponent) headerComponent!: HeaderComponent;
 
+  @ViewChildren(HeaderComponent) headerChildrenComponent!: QueryList<HeaderComponent>
 
   constructor() { }
   
 
   ngOnInit(): void {
+    console.log(this.headerComponent)
     this.roomList = [ {
       roomNumber: 101,
       roomType: "Deluxe Room",
@@ -62,19 +66,31 @@ export class RoomsComponent implements OnInit {
   }
   
   // ngDoCheck(): void {
-  //   console.log('on changes is called')
-  // }
-
-
-  toggle() {
-    this.hideRooms = !this.hideRooms
-    this.title = "Rooms list";
-  }
-
-  selectRoom(room: RoomList) {
-    console.log(room)
-    this.selectedRoom = room
-  }
+    //   console.log('on changes is called')
+    // }
+    
+    ngAfterViewInit(): void {
+      // this.headerComponent.title = "Rooms View"
+      
+    }
+    
+    ngAfterViewChecked(): void {
+      this.headerComponent.title = "Rooms View"
+      // console.log(this.headerComponent)
+      this.headerChildrenComponent.last.title= 'Last Title'
+      console.log(this.headerChildrenComponent.last)
+    }
+    
+    
+    toggle() {
+      this.hideRooms = !this.hideRooms
+      this.title = "Rooms list";
+    }
+    
+    selectRoom(room: RoomList) {
+      console.log(room)
+      this.selectedRoom = room
+    }
 
   addRoom() {
     const room: RoomList= {

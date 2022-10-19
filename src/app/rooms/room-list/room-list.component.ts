@@ -21,7 +21,7 @@ export class RoomListComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes)
     if(changes['title']) {
-      this.title = changes['title'].currentValue.uppercase()
+      this.title = changes['title'].currentValue.toUpperCase()
     }
   }
 
