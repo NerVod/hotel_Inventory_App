@@ -1,13 +1,14 @@
-import { AfterViewChecked, AfterViewInit, Component, DoCheck, OnChanges, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, DoCheck, OnChanges,  OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { Room, RoomList } from './rooms';
+import { RoomsService } from './services/rooms.service';
 
 @Component({
   selector: 'hinv-rooms',
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.scss']
 })
-export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked  {
 
   hotelName = 'Hilton Hotel';
   numberOfRooms = 10;
@@ -27,42 +28,13 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   @ViewChildren(HeaderComponent) headerChildrenComponent!: QueryList<HeaderComponent>
 
-  constructor() { }
+  
+  constructor(private roomsService: RoomsService) { }
   
 
   ngOnInit(): void {
-    console.log(this.headerComponent)
-    this.roomList = [ {
-      roomNumber: 101,
-      roomType: "Deluxe Room",
-      amenities: 'Air conditioner, free Wi-fi, Bathroom, kitchen',
-      price: 300,
-      photos: 'https://images.unsplash.com/photo-1591088398332-8a7791972843?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1548&q=80',
-      checkinTime: new Date('18-Oct-2022'),
-      checkoutTime: new Date('20-Oct-2022'),
-      rating: 2.54846541,
-    },
-    {
-      roomNumber: 102,
-      roomType: 'Deluxe Room',
-      amenities: 'Air conditionner, Bathroom, wi-fi jacuzzy, pool View',
-      price: 1000,
-      photos: 'https://images.unsplash.com/photo-1631049552240-59c37f38802b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80',
-      checkinTime: new Date('18-Oct-2022'),
-      checkoutTime: new Date('20-Oct-2022'),
-      rating: 3.4,
-    },
-    {
-      roomNumber: 103,
-      roomType: 'Private Suite Room',
-      amenities: 'Air conditionner, Bathroom, jacuzzy, pool View, office space, Hammam',
-      price: 15000,
-      photos: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80',
-      checkinTime: new Date('18-Oct-2022'),
-      checkoutTime: new Date('20-Oct-2022'),
-      rating: 4.6,
-    },
-    ]
+    this.roomList = this.roomsService.getRooms();
+
   }
   
   // ngDoCheck(): void {
@@ -78,7 +50,7 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
       this.headerComponent.title = "Rooms View"
       // console.log(this.headerComponent)
       this.headerChildrenComponent.last.title= 'Last Title'
-      console.log(this.headerChildrenComponent.last)
+      // console.log(this.headerChildrenComponent.last)
     }
     
     
@@ -107,5 +79,6 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
     // this.roomList.push(room)
     this.roomList = [ ...this.roomList, room]
   }
+
 
 }
